@@ -8,7 +8,8 @@ def menu():
   print("3. Modificar")
   print("4. Cancelación de materias")
   print("5. Resultados por estudiante")
-  print("6. Salir")
+  print("6. Informe grupo")
+  print("7. Salir")
   return int(input("Digite una opción: "))
 
 def agregar (df,archivo):
@@ -106,9 +107,59 @@ def resul_estudiantes(df):
    percentil_est = percentiles.loc[df['Identificación'] == est['Identificación']].iloc[0]
    print(f"Percentil del estudiante dentro del grupo: {percentil_est:.2f}")
 
-opcion = 0
+def informe_grupo(df):
+   notas_finales = []
 
-while opcion != 6:
+   for i, est in df.iterrows():
+      nota_final_por_est = (est['Nota_1'] + est['Nota_2'] + est['Nota_3'] + est['Nota_4']) / 4
+      nota_promedio_est = est[['Nota_1', 'Nota_2', 'Nota_3', 'Nota_4']].mean()
+
+      notas_finales.append(nota_final_por_est)
+
+      print(f"Estudiante: {est['Nombre']} | Identificación: {est['Identificación']} "
+            f"| Nota final: {nota_final_por_est:.2f} | Promedio: {nota_promedio_est:.2f}")
+
+   notas_finales = pd.Series(notas_finales)
+
+   promedio_grupo = notas_finales.mean()
+   print(f"Promedio del grupo: {promedio_grupo:.2f}")
+
+   encima = (notas_finales > promedio_grupo).sum()
+   debajo = (notas_finales < promedio_grupo).sum()
+   iguales = (notas_finales == promedio_grupo).sum()
+
+   print(f"Estudiantes por encima del promedio: {encima}")
+   print(f"Estudiantes por debajo del promedio: {debajo}")
+   print(f"Estudiantes iguales al promedio: {iguales}")
+
+   ganadores = (notas_finales >= 3).sum()
+   perdedores = (notas_finales < 3).sum()
+
+   print(f"Ganadores: {ganadores}")
+   print(f"Perdedores: {perdedores}")
+
+   total = len(notas_finales)
+   print(f"Porcentaje de ganadores: {(ganadores/total)*100:.2f}%")
+   print(f"Porcentaje de perdedores: {(perdedores/total)*100:.2f}%")
+
+   percentiles = notas_finales.rank(pct=True) * 100
+   print("\nDistribución percentil por estudiante:")
+   print(percentiles)
+
+   moda = notas_finales.mode()
+   if len(moda) == 1:
+      print(f"\nModa: {moda.iloc[0]:.2f}")
+   else:
+      print(f"\nModa (multimodal): {[round(m,2) for m in moda]}")
+
+   mediana = notas_finales.median()
+   print(f"Mediana: {mediana:.2f}")
+
+   desviacion = notas_finales.std()
+   print(f"Desviación estándar: {desviacion:.2f}")
+
+opcion = 0
+while opcion != 7:
     opcion = menu()
 
     if opcion == 1:
@@ -125,8 +176,10 @@ while opcion != 6:
 
     elif opcion == 5:
         resul_estudiantes(df)
-
     elif opcion == 6:
+       informe_grupo(df)
+
+    elif opcion == 7:
         print("Saliendo del sistema...")
 
     else:
