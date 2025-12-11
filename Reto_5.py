@@ -1,6 +1,7 @@
 import pandas as pd
-archivo = 'https://github.com/jhoanmoreno-94/Matriculas_2024/raw/refs/heads/main/notas.xlsx'
-df = pd.read_excel(archivo)
+archivo_github = 'https://github.com/jhoanmoreno-94/Matriculas_2024/raw/refs/heads/main/notas.xlsx'
+df = pd.read_excel(archivo_github)
+archivo = "notas.xlsx"
 def menu():
   print("MENU")
   print("1. Agregar")
