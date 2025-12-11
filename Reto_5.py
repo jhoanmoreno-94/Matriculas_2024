@@ -23,9 +23,9 @@ def agregar (df,archivo):
   nuevo = {
         "Identificación": id_nuevo,
         "Nombre": input("Digite el nombre: "),
-        "Email": input("Digite el correo electrónico: "),
-        "Telefono": input("Digite el número de teléfono: ").strip(),
-        "F_nacimiento": input("Digite la fecha de nacimiento (dd-mm-aa): "),
+        "Correo": input("Digite el correo electrónico: "),
+        "Teléfono": input("Digite el número de teléfono: ").strip(),
+        "Fecha_nacimiento": input("Digite la fecha de nacimiento (dd-mm-aaaa): "),
         "Nota_1": float(input("Digite la nota 1: ")),
         "Nota_2": float(input("Digite la nota 2: ")),
         "Nota_3": float(input("Digite la nota 3: ")),
@@ -148,10 +148,7 @@ def informe_grupo(df):
    print(percentiles)
 
    moda = notas_finales.mode()
-   if len(moda) == 1:
-      print(f"\nModa: {moda.iloc[0]:.2f}")
-   else:
-      print(f"\nModa (multimodal): {[round(m,2) for m in moda]}")
+   print(f"\nModa: {moda.iloc[0]:.2f}")
 
    mediana = notas_finales.median()
    print(f"Mediana: {mediana:.2f}")
