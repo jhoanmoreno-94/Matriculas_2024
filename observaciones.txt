@@ -1,0 +1,2 @@
+streamlit run index.py para corre en web - se debe escribir en la terminal - 
+y al hacer ctrl + C sale de streamlit
